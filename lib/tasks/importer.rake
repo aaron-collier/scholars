@@ -75,7 +75,8 @@ namespace :importer do
         # params["creator"] << "http://csuvocab.tipj95gksd.us-east-1.elasticbeanstalk.com/ns/csupeople/" + person["name"]
         # puts person["name"]
         params["creator"] << creator
-        params["title"] << creator
+        params["title"] << person["name"] unless person["name"].nil?
+        
         params["university"] << person["university"]["name"] # @university_vocabulary[person["university"]] unless @university_vocabulary[person["university"]].nil?
         # params["affiliation"] << "http://csuvocab.tipj95gksd.us-east-1.elasticbeanstalk.com/ns/csuinstitutions/coast"
         # puts person["photo_url"]
