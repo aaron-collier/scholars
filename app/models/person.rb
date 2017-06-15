@@ -4,7 +4,6 @@ class Person < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   # This must come after the WorkBehavior because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
-  include ::Hyrax::BasicMetadata
 
   self.indexer = PersonIndexer
   # Change this to restrict which works can be added as a child.
@@ -80,4 +79,7 @@ class Person < ActiveFedora::Base
   property :group, predicate: ::RDF::Vocab::FOAF.Group do |index|
     index.as :stored_searchable, :facetable
   end
+
+  include ::Hyrax::BasicMetadata
+
 end
