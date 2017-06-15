@@ -9,11 +9,18 @@
 </tbody>
 </table>
 -->
+<% unless presenter.group.nil? %>
 <h3>I'm a member of</h3>
 <table class="table table-striped <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
   <thead>
     <!-- <tr><th><%= t('.attribute_name_label') %></th><th><%= t('.attribute_values_label') %></th></tr> -->
   </thead>
   <tbody>
-</tbody>
+  <% presenter.group.each do |group| %>
+  <tr><td>
+    <%= iconify_auto_link(group) %>
+  </td></tr>
+  <% end %>
+  </tbody>
 </table>
+<% end %>
