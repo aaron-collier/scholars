@@ -1,5 +1,7 @@
+<% unless presenter.about.nil? or presenter.about.first == '' %>
 <% presenter.about.each do |bio| %>
     <h3>About me</h3><p class="work_description"><%= iconify_auto_link(bio) %></p>
+<% end %>
 <% end %>
 
 <script>

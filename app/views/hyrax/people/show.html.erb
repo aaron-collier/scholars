@@ -3,6 +3,7 @@
   <div class="col-xs-12">
     <header>
       <%= render 'work_title', presenter: @presenter %>
+      <%= @presenter.university.first unless @presenter.university.nil? %>
     </header>
 
     <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
