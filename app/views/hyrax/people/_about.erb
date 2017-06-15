@@ -1,0 +1,20 @@
+<% presenter.about.each do |bio| %>
+    <h3>About me</h3><p class="work_description"><%= iconify_auto_link(bio) %></p>
+<% end %>
+
+<script>
+$('.work_description').each(function(){
+    var length = 500;
+    var details = $(this);
+    var original_html = details.html();
+    var original_text = details.text();
+    var truncated_text = $.trim(original_text).substring(0, length).split(" ").slice(0, -1).join(" ") + " ";
+    var show_more = $('<a href="#more">...more</a>');
+        show_more.on('click', function(){
+          details.html(original_html);
+          return false;
+        })
+    details.html(truncated_text);
+    details.append(show_more);
+  });
+</script>
