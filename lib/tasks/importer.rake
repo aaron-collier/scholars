@@ -178,7 +178,7 @@ namespace :importer do
       person_prefix = person["name"].gsub(/[^A-Za-z]/i,'').gsub(/\ADr/,'')
       begin
         download = open(person["photo_url"])
-        IO.copy_stream(download,'/Users/acollier/Documents/Projects/Coast/thumbnails/'+person_prefix+".jpg")
+        IO.copy_stream(download,'/data/csuscholars/thumbnails/'+person_prefix+".jpg")
       rescue
         puts "Error downloading Image [#{person_prefix}.jpg]."
       end
