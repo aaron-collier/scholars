@@ -4,6 +4,13 @@
 <% end %>
 <% end %>
 
+<h4>Websites</h4>
+<% unless presenter.website.nil? %>
+<% presenter.website.each do |website| %>
+  <%= iconify_auto_link(website) %><br />
+<% end %>
+<% end %>
+
 <script>
 $('.work_description').each(function(){
     var length = 500;

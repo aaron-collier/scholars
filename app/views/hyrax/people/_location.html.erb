@@ -1,0 +1,10 @@
+<table class="table">
+  <thead>
+    <!-- <tr><th><%= t('.attribute_name_label') %></th><th><%= t('.attribute_values_label') %></th></tr> -->
+  </thead>
+  <tbody>
+    <%= presenter.attribute_to_html(:office) %>
+    <%= presenter.attribute_to_html(:phone) %>
+    <%= presenter.attribute_to_html(:email) %>
+  </tbody>
+</table>

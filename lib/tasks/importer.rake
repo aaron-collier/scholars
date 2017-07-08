@@ -76,12 +76,13 @@ namespace :importer do
         # puts person["name"]
         params["creator"] << creator
         params["title"] << person["name"] unless person["name"].nil?
-        
-        params["university"] << person["university"]["name"] # @university_vocabulary[person["university"]] unless @university_vocabulary[person["university"]].nil?
+
+        params["university"] << person["university"]["name"] unless person["university"].nil? # @university_vocabulary[person["university"]] unless @university_vocabulary[person["university"]].nil?
         # params["affiliation"] << "http://csuvocab.tipj95gksd.us-east-1.elasticbeanstalk.com/ns/csuinstitutions/coast"
         # puts person["photo_url"]
         params["office"] = person["office"] unless person["office"] == 'null'
-        params["phone"] = person["phone"] unless person["phone"] == 'null'
+        puts person["phone"]
+        params["phone"] = person["phone"] unless person["phone"].nil?
         params["email"] = person["email"] unless person["email"] == 'null'
         params["about"] = person["about"] unless person["about"] == 'null'
         params["position"] = person["position_title"] unless person["position_title"] == 'null'
@@ -97,24 +98,28 @@ namespace :importer do
           params["website"] << website["href"]
         end
         params["visibility"] = "open"
-        person["disciplines"].each do |discipline|
-          params["discipline"] << discipline["name"]
+        unless person["disciplines"].nil?
+          person["disciplines"].each do |discipline|
+            params["discipline"] << discipline["name"]
+          end
         end
-        person["groups"].each do |group|
-          params["group"] << group["name"]
+        unless person["groups"].nil?
+          person["groups"].each do |group|
+            params["group"] << group["name"]
+          end
         end
 
-#        puts params
+        puts params
 
 #      download = open(person["photo_url"])
 #      IO.copy_stream(download,'/Users/acollier/Documents/Projects/Coast/thumbnails/'+person_prefix+".jpg")
 
-      begin
         new_person = Person.new(id: ActiveFedora::Noid::Service.new.mint)
         new_person.update(params)
         new_person.apply_depositor_metadata("acollier@calstate.edu")
         new_person.save
 
+        begin
         file = File.open('/Users/acollier/Documents/Projects/Coast/thumbnails/'+person_prefix+".jpg")
           personImage = Hyrax::UploadedFile.create(file: file)
           personImage.save
@@ -163,6 +168,21 @@ namespace :importer do
       end
     end
 
+  end
+
+  task :get_images, [:file] =>  [:environment] do |t, args|
+    puts "loading task get_images"
+    @source_file = args[:file] or raise "No source input file provided."
+    @sourceHash = JSON.parse(File.read(@source_file))
+    @sourceHash.each do |person|
+      person_prefix = person["name"].gsub(/[^A-Za-z]/i,'').gsub(/\ADr/,'')
+      begin
+        download = open(person["photo_url"])
+        IO.copy_stream(download,'/Users/acollier/Documents/Projects/Coast/thumbnails/'+person_prefix+".jpg")
+      rescue
+        puts "Error downloading Image [#{person_prefix}.jpg]."
+      end
+    end
   end
 end
 

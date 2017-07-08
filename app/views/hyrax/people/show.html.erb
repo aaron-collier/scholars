@@ -4,6 +4,7 @@
     <header>
       <%= render 'work_title', presenter: @presenter %>
       <%= @presenter.university.first unless @presenter.university.nil? %>
+      <%= @presenter.discipline.first unless @presenter.discipline.nil? %>
     </header>
 
     <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
@@ -17,6 +18,7 @@
   <div class="col-sm-4">
     <%= render "show_actions", presenter: @presenter %>
     <%= render 'representative_media', presenter: @presenter %>
+    <%= render 'location', presenter: @presenter %>
     <%= render 'social_media' %>
     <%= render 'citations', presenter: @presenter %>
   </div>
